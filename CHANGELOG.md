@@ -92,5 +92,25 @@
 * Implement #be-2222: implement tlb object for jettontransfermessage
 * Implement #be-2232: fix partialeq for eitherref
 * Ni: fix cell_builder bit_len
-### v0.24.2
-* Disabled no-avx feature for macos
+### v0.25.0
+* Impl BE-2175: parsing wallet tx payload
+* Impl BE-2280: fixed bug in store_int
+* Impl BE-2161: fixed MsgAddress tl-b implementation
+* Impl BE-2234: fixed Either tl-b implementation
+* Impl BE-2080: moved library proider to tonlib-core
+* Impl NI: updated readme for macos
+* Impl BE-2342: support of external data providers 
+* Impl BE-2358: fixed int in TvmStackEntry
+### v0.25.1
+* Impl NI: fixed bug in ExtOutMsgInfo 
+* Impl NI: improved readability of verify_prefix
+* Impl #BE-2368: fixed memoy leaks in emulator call
+* Impl NI: relaxed check fr get_jetton_data output
+### v0.25.2
+* Impl NI: fixed bug in ExtOutMsgInfo and OutActionReserveCurrency
+
+### v0.25.3
+* Downstream 0.25.2
+* Ni: update trait to be async
+### v0.25.4
+* Ni bump tonlib-sys to 2025.4.1

@@ -1,5 +1,6 @@
 use thiserror::Error;
 
+use crate::tlb_types::tlb::TLBPrefix;
 use crate::types::TonHashParseError;
 
 #[derive(Error, Debug)]
@@ -37,6 +38,14 @@ pub enum TonCellError {
     #[error("Invalid input error ({0})")]
     InvalidInput(String),
 
+    #[error("Invalid TLB prefix: (expected: {expected_prefix}, actual {actual_prefix}, expected bit_len: {expected_bit_len}, remaining bit_len: {remaining_bit_len}")]
+    InvalidTLBPrefix {
+        expected_prefix: u64,
+        actual_prefix: u64,
+        expected_bit_len: usize,
+        remaining_bit_len: usize,
+    },
+
     #[error(
         "Non-empty reader (Remaining bits: {remaining_bits}, Remaining refs: {remaining_refs})"
     )]
@@ -46,6 +55,9 @@ pub enum TonCellError {
     },
     #[error("TonHash parse error ({0})")]
     TonHashParseError(#[from] TonHashParseError),
+
+    #[error("{0}")]
+    IO(#[from] std::io::Error),
 }
 
 pub trait MapTonCellError<R, E>
@@ -115,5 +127,18 @@ impl TonCellError {
         T: ToString,
     {
         TonCellError::CellParserError(format!("Cell parser error: {}", e.to_string()))
+    }
+
+    pub fn tlb_prefix_error(
+        expected_prefix: TLBPrefix,
+        actual_prefix: u64,
+        bit_len_remaining: usize,
+    ) -> TonCellError {
+        TonCellError::InvalidTLBPrefix {
+            expected_prefix: expected_prefix.value,
+            actual_prefix,
+            expected_bit_len: expected_prefix.bit_len,
+            remaining_bit_len: bit_len_remaining,
+        }
     }
 }
